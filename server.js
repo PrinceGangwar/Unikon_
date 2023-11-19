@@ -1,5 +1,4 @@
-  
-  ////////////////////////////////////project short  description //////////////////////////////////////////////////////////////////////////
+////////////////////////////////////project short  description //////////////////////////////////////////////////////////////////////////
 
 
   /*
@@ -20,7 +19,7 @@ To run the application, make sure you have MongoDB installed and running on your
 
 */
 
-/***********************************import statements stared************************************************************ */
+/**********************************import statements stared*********************************************************** */
 const express = require("express");
 const bodyParser = require("body-parser");
 var multer = require('multer');
@@ -31,10 +30,10 @@ const mailgen= require('mailgen');
 const nodemailer = require('nodemailer');
 const cookieParser= require('cookie-parser');
 var pn=1;
-/*************************************import statement ended***************************************************************************   */
+/************************************import statement ended**************************************************************************   */
 
 
-/**************************************different routes*******************************************************************8 */
+/*************************************different routes******************************************************************8 */
 const app=express();
 app.use(bodyParser.urlencoded({extended:true}));
 app.set("view engine", "ejs");
@@ -54,12 +53,13 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage }).single("img");
 /***********************************************connecting mongodb datatbase ************************************************8 */
 //connect mongodb....
-mongoose.connect("mongodb://localhost:27017/unikon_db", { useNewUrlParser: true });
+mongoose.connect("mongodb+srv://unikon2023:root@cluster0.3ist6pm.mongodb.net/unikon_db", { useNewUrlParser: true });
 
 
-/********************************defining mongodb schema*******************************************************************************************8 */
+/*******************************defining mongodb schema******************************************************************************************8 */
 // define schema.....
 const usertable_schema ={
+  userid:Number,
   name: String,
   email:String,
   password:String,
@@ -74,6 +74,8 @@ const contact_schema ={
   messages:String
 };
 const item_details_schema = {
+  item_id:Number,
+  
   name_of_item: String,
   category_of_item: String,
   price_of_item: Number,
@@ -155,11 +157,6 @@ app.post("/delete-product",function(req,res){
     async function deleteitem() {
       try {
         const result = await item_details.deleteOne({ img: product });
-        if (result.deletedCount === 1) {
-          console.log(`Item with name '${product}' deleted successfully.`);
-        } else {
-          console.log(`Item with name '${product}' not found.`);
-        }
       } catch (err) {
         console.error(err);
       }
@@ -461,10 +458,10 @@ app.post("/next",function(req,res){
       }
     nextelement();
 });
-/*****************************************************post statements ended**********************************************8 */
+/****************************************************post statements ended*********************************************8 */
 
-/*******************************listening to port 4000*****************************************************************************/
+/******************************listening to port 4000****************************************************************************/
 app.listen(4000,function(){
   console.log("server started at port 4000");
 })
-/*************************************end************************************************************************************************************  */
+/************************************end***********************************************************************************************************  */
